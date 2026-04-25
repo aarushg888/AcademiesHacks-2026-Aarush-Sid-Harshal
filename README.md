@@ -1,0 +1,1 @@
+# AcademiesHacks-2026-Aarush-Sid-Harshal
