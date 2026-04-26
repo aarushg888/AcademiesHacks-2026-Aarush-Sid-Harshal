@@ -19,8 +19,7 @@ NAME_MAP = {
     "lynch": "Peter Lynch",
 }
 
-# Per-investor vocabulary banks — forces distinct voice in every response.
-# Each call samples 3-4 terms the LLM MUST weave in naturally.
+
 INVESTOR_VOCAB = {
     "buffett": [
         "wonderful business", "fair price", "moat", "owner earnings", "margin of safety",
@@ -261,7 +260,7 @@ def stress_test(investor, scenario, chunks, stress_modifier="", live_data: dict 
     context = "\n\n---\n\n".join(chunks)
     vocab = _vocab_sample(investor, 4)
 
-    # Build scenario block — live data takes priority over user description
+  
     parts = []
     if live_data:
         from market_data import fundamentals_to_prompt
@@ -273,7 +272,7 @@ def stress_test(investor, scenario, chunks, stress_modifier="", live_data: dict 
         parts.append("STRESS CONDITION: " + stress_modifier)
     full_scenario = "\n\n".join(parts)
 
-    # Anti-repetition: forbid generic phrases
+ 
     forbidden = (
         "Avoid these GENERIC phrases (do not use): 'solid company', 'good investment', "
         "'mixed signals', 'wait and see', 'further analysis needed', 'time will tell', "
@@ -325,7 +324,7 @@ Return ONLY this JSON:
         else:
             bd[dim]["score"] = _clamp(bd[dim].get("score", 50))
 
-    # Blend LLM conviction with weighted breakdown (40/60 split)
+ 
     weights = list(profile["weights"].values())
     scores = [bd[k]["score"] for k in ["valuation", "growth", "risk", "conditions"]]
     calc_conviction = _clamp(int(sum(s * w for s, w in zip(scores, weights))))
@@ -419,7 +418,7 @@ def analyze_portfolio(holdings, focus_investor="buffett", live_data_map: dict = 
     scoring = INVESTOR_SCORING[focus_investor]
     vocab = _vocab_sample(focus_investor, 4)
 
-    # Build holdings text with live data when available
+
     lines = []
     for h in holdings:
         tick = h["ticker"]
@@ -475,12 +474,12 @@ Return ONLY this JSON:
     data = _parse_json(_call(system, user, 2000, temperature=0.55))
 
     positions = data.get("positions", [])
-    # Validate: every input ticker must appear in positions
+
     pos_tickers = {p.get("ticker", "").upper() for p in positions}
     input_tickers = {h["ticker"].upper() for h in holdings}
     missing = input_tickers - pos_tickers
 
-    # If LLM dropped tickers, add neutral entries so frontend stays consistent
+
     for h in holdings:
         if h["ticker"].upper() not in pos_tickers:
             positions.append({
@@ -490,10 +489,9 @@ Return ONLY this JSON:
                 "note": f"Position not specifically rated — review separately."
             })
 
-    # Filter out any tickers NOT in the input (LLM hallucination)
     positions = [p for p in positions if p.get("ticker", "").upper() in input_tickers]
 
-    # Order positions to match input order
+
     order = {h["ticker"].upper(): i for i, h in enumerate(holdings)}
     positions.sort(key=lambda p: order.get(p.get("ticker", "").upper(), 999))
 
