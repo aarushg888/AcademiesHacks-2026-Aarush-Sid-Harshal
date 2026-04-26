@@ -27,7 +27,7 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stApp"] {
 #MainMenu, footer, header { visibility: hidden; }
 [data-testid="stDecoration"] { display: none; }
 
-/* NAV */
+
 .nav {
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 40px; height: 56px;
@@ -47,7 +47,6 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stApp"] {
     padding: 4px 12px; border-radius: 20px;
 }
 
-/* HERO */
 .hero-wrap {
     display: grid; grid-template-columns: 1fr 420px; gap: 48px; align-items: center;
     padding: 56px 56px 40px; max-width: 1200px; margin: 0 auto;
@@ -73,7 +72,7 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stApp"] {
 .feat-dot { width: 6px; height: 6px; border-radius: 50%; background: #8B1538; flex-shrink: 0; }
 .hero-feat span { font-family: 'Inter', sans-serif; font-size: 13px; color: rgba(26,26,26,0.7); }
 
-/* FEATURE TABS ROW — 3D cards with depth */
+
 .feat-tabs-row {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
     max-width: 1200px; margin: 0 auto 0; padding: 0 56px 48px;
@@ -111,12 +110,11 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stApp"] {
     font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(26,26,26,0.55); line-height: 1.6;
 }
 
-/* STOCK INPUT AREA */
+
 .input-area {
     padding: 0 40px 40px; display: flex; flex-direction: column; gap: 16px;
 }
 
-/* Smooth scroll-in animation */
 @keyframes fadeUp {
     from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
@@ -133,7 +131,6 @@ html { scroll-behavior: smooth; }
 }
 .chip:hover { background: #8B1538; border-color: #8B1538; color: #F5F1E8; }
 
-/* CARDS — soft layered depth */
 .card {
     background: #FFFFFF;
     border: 1px solid rgba(26,26,26,0.06);
@@ -154,7 +151,6 @@ html { scroll-behavior: smooth; }
     box-shadow: 0 1px 2px rgba(26,26,26,0.03);
 }
 
-/* INVESTOR SELECTOR */
 .inv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; padding: 0 40px 32px; max-width: 1200px; margin: 0 auto; }
 .inv-card {
     background: #FFFFFF;
@@ -180,7 +176,6 @@ html { scroll-behavior: smooth; }
 .inv-name { font-size: 14px; font-weight: 600; color: #1A1A1A; margin-bottom: 4px; }
 .inv-style { font-size: 11px; color: rgba(26,26,26,0.4); line-height: 1.4; }
 
-/* VERDICT */
 .verdict-wrap { margin-bottom: 16px; border-radius: 10px; overflow: hidden; }
 .verdict-top {
     display: flex; align-items: center; justify-content: space-between;
@@ -203,7 +198,6 @@ html { scroll-behavior: smooth; }
 }
 .conviction-label { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(26,26,26,0.5); }
 
-/* BREAKDOWN */
 .breakdown-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
 .breakdown-cell {
     background: #FFFFFF;
@@ -231,7 +225,6 @@ html { scroll-behavior: smooth; }
 .fill-red { background: #F87171; }
 .breakdown-note { font-size: 12px; color: rgba(26,26,26,0.5); line-height: 1.5; }
 
-/* REASONING + INSIGHT */
 .reasoning-box { background: #F5F1E8; border-left: 2px solid #8B1538; padding: 14px 18px; border-radius: 0 8px 8px 0; margin-bottom: 12px; }
 .reasoning-text { font-size: 13px; line-height: 1.65; color: rgba(26,26,26,0.75); }
 .insight-box { background: rgba(139,21,56,0.05); border: 1px solid rgba(139,21,56,0.18); border-radius: 8px; padding: 14px 18px; margin-bottom: 12px; }
@@ -241,7 +234,6 @@ html { scroll-behavior: smooth; }
 .quote-label { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(26,26,26,0.4); margin-bottom: 6px; }
 .quote-text { font-size: 12px; color: rgba(26,26,26,0.5); line-height: 1.6; font-style: italic; }
 
-/* STRESS TEST BUTTONS */
 .stress-chips { display: flex; gap: 8px; flex-wrap: wrap; }
 .stress-chip {
     font-size: 11px; font-weight: 500; padding: 5px 12px;
@@ -251,7 +243,6 @@ html { scroll-behavior: smooth; }
 .stress-chip:hover { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.4); }
 .stress-chip.active { background: rgba(239,68,68,0.2); border-color: #EF4444; color: #1A1A1A; }
 
-/* DNA PRINCIPLES */
 .principle-row { padding: 14px 0; border-bottom: 1px solid rgba(26,26,26,0.06); }
 .principle-row:last-child { border-bottom: none; }
 .principle-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
@@ -266,7 +257,6 @@ html { scroll-behavior: smooth; }
 .flag-dot { width: 6px; height: 6px; background: #EF4444; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
 .flag-text { font-size: 12px; color: rgba(26,26,26,0.6); line-height: 1.55; }
 
-/* SECTION LABELS */
 .section-label {
     font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
     color: rgba(26,26,26,0.4); margin-bottom: 16px;
@@ -274,7 +264,6 @@ html { scroll-behavior: smooth; }
 }
 .section-label::before { content: ''; width: 12px; height: 1px; background: rgba(26,26,26,0.25); }
 
-/* PRACTICE MATCH */
 .match-card { background: #FFFFFF; border: 1px solid rgba(26,26,26,0.1); border-radius: 10px; padding: 18px 20px; margin-bottom: 10px; }
 .match-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .match-name { font-size: 14px; font-weight: 600; color: #1A1A1A; }
@@ -289,7 +278,6 @@ html { scroll-behavior: smooth; }
 .score-meta { font-size: 12px; color: rgba(26,26,26,0.5); line-height: 1.6; }
 .summary-box { background: #FFFFFF; border-left: 2px solid #8B1538; padding: 14px 18px; border-radius: 0 8px 8px 0; margin-bottom: 20px; font-size: 13px; color: rgba(26,26,26,0.75); line-height: 1.6; font-style: italic; }
 
-/* INPUTS */
 textarea, [data-testid="stTextArea"] textarea {
     background: #FFFFFF !important; border: 1px solid rgba(26,26,26,0.15) !important;
     border-radius: 8px !important; color: #1A1A1A !important;
@@ -311,7 +299,6 @@ textarea:focus { border-color: #8B1538 !important; outline: none !important; }
 }
 [data-testid="stSelectbox"] svg { fill: #1A1A1A !important; }
 
-/* BUTTONS — soft shadow with 3D lift on hover */
 [data-testid="stButton"] button {
     background: #FFFFFF !important;
     color: #1A1A1A !important;
@@ -339,7 +326,6 @@ textarea:focus { border-color: #8B1538 !important; outline: none !important; }
     box-shadow: 0 1px 2px rgba(139,21,56,0.15) !important;
 }
 
-/* TABS — pill segmented control */
 [data-testid="stTabs"] [data-baseweb="tab-list"] {
     background: #FFFFFF !important;
     border: 1px solid rgba(26,26,26,0.08) !important;
@@ -389,13 +375,9 @@ hr { border-color: rgba(26,26,26,0.08) !important; }
 div[data-testid="stVerticalBlock"] > div { gap: 0 !important; }
 
 
-/* ═══════════ FORCED OVERRIDES — v2.0 ═══════════ */
-/* cache-bust: 20260425-220000 */
 
-/* CENTERED CONTAINERS */
 .block-container > div, [data-testid="stTabs"] [data-baseweb="tab-panel"] > div { max-width: 1200px !important; margin: 0 auto !important; }
 
-/* PILL TABS — black/white segmented control */
 [data-testid="stTabs"] [data-baseweb="tab-list"] {
     background: #FFFFFF !important;
     border: 1px solid rgba(26,26,26,0.08) !important;
@@ -433,7 +415,7 @@ div[data-testid="stVerticalBlock"] > div { gap: 0 !important; }
 }
 [data-baseweb="tab-highlight"] { display: none !important; }
 
-/* NUCLEAR BUTTONS — 3D LIFT WITH SHADOW */
+
 [data-testid="stButton"] button {
     background: #FFFFFF !important;
     color: #1A1A1A !important;
@@ -462,7 +444,6 @@ div[data-testid="stVerticalBlock"] > div { gap: 0 !important; }
     box-shadow: 0 2px 6px rgba(26,26,26,0.15) !important;
 }
 
-/* ALL CARDS — 3D depth */
 .card, .verdict-wrap, .breakdown-cell, .inv-card, .feat-tab, .match-card, .score-banner {
     box-shadow: 0 1px 3px rgba(26,26,26,0.04), 0 4px 16px rgba(26,26,26,0.05) !important;
     transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s !important;
@@ -472,7 +453,6 @@ div[data-testid="stVerticalBlock"] > div { gap: 0 !important; }
     box-shadow: 0 8px 24px rgba(26,26,26,0.08), 0 16px 40px rgba(26,26,26,0.06) !important;
 }
 
-/* SCROLL ANIMATION */
 @keyframes slideUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -487,7 +467,6 @@ div[data-testid="stVerticalBlock"] > div { gap: 0 !important; }
 .hero-right svg { animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important; }
 html { scroll-behavior: smooth !important; }
 
-/* SELECTBOX — black/white */
 [data-testid="stSelectbox"] > div > div {
     background: #FFFFFF !important;
     border: 1px solid rgba(26,26,26,0.1) !important;
@@ -500,7 +479,6 @@ html { scroll-behavior: smooth !important; }
     box-shadow: 0 2px 8px rgba(26,26,26,0.06) !important;
 }
 
-/* TEXTAREA */
 textarea, [data-testid="stTextArea"] textarea {
     background: #FFFFFF !important;
     border: 1px solid rgba(26,26,26,0.1) !important;
@@ -515,12 +493,10 @@ textarea:focus, [data-testid="stTextArea"] textarea:focus {
     outline: none !important;
 }
 
-/* EXTRA SPACING */
 .section-label { margin-top: 24px !important; }
 
 
 
-/* ═══════════ STOCK PICKER CARD ═══════════ */
 .picker-card {
     background: #FFFFFF;
     border: 1px solid rgba(26,26,26,0.08);
