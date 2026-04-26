@@ -1,10 +1,4 @@
-"""
-Run this once before launching the app:
-    python ingest.py
 
-Reads data/*.txt and loads all chunks into the in-memory RAG store,
-then verifies each investor was ingested correctly.
-"""
 import os
 from rag import ingest_investor, INVESTORS
 
