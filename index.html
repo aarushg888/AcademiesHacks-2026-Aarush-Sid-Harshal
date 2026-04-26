@@ -159,7 +159,7 @@ input[type=range]{width:100%;accent-color:#fff}
 .divider-line{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent)}
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.6}
 
-/* === LIVE DATA STRIP === */
+
 .live-strip{display:flex;align-items:center;gap:18px;padding:14px 18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;margin-bottom:14px;flex-wrap:wrap}
 .live-tick{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:#fff;letter-spacing:-0.5px}
 .live-price{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:600;color:#fff;letter-spacing:-1px}
@@ -169,7 +169,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .live-meta{font-size:11px;color:var(--dim);display:flex;flex-direction:column;gap:2px}
 .live-meta strong{color:rgba(255,255,255,0.7);font-weight:600}
 
-/* === MONOCHROME PORTFOLIO === */
+
 .mono-banner{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:28px 32px;margin-bottom:20px;display:flex;align-items:center;gap:28px}
 .mono-score{font-family:'Space Grotesk',sans-serif;font-size:72px;font-weight:700;color:#fff;letter-spacing:-4px;line-height:1}
 .mono-pos-row{display:grid;grid-template-columns:80px 1fr 120px 100px 32px;gap:12px;align-items:center;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px 16px}
@@ -187,7 +187,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <script type="text/babel">
 const { useState, useRef, useCallback, useEffect } = React;
 
-/* ── SCROLL REVEAL ── */
+
 function useScrollReveal() {
   useEffect(() => {
     const obs = new IntersectionObserver((entries) => {
@@ -204,7 +204,6 @@ function useScrollReveal() {
   });
 }
 
-/* ── 3D TILT ── */
 function useTilt(depth = 2) {
   const ref = useRef(null);
   const deg = depth === 1 ? 6 : depth === 2 ? 14 : 22;
@@ -225,7 +224,7 @@ function useTilt(depth = 2) {
   return { ref, onMouseMove, onMouseLeave };
 }
 
-/* ── DATA ── */
+
 const INVESTORS = {
   buffett:{ name:"Warren Buffett", initials:"WB", style:"Value · Moats · Patience", profile:"Seeks businesses with durable competitive advantages trading below intrinsic value." },
   munger: { name:"Charlie Munger", initials:"CM", style:"Mental Models · Inversion · Quality", profile:"Applies multidisciplinary mental models to investing. Inverts problems, focuses on avoiding stupidity over seeking brilliance." },
@@ -256,7 +255,7 @@ function detectTicker(text) {
   return null;
 }
 
-/* ── LIVE DATA HOOK ── */
+
 function useLiveData(ticker) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -271,7 +270,7 @@ function useLiveData(ticker) {
   return { data, loading };
 }
 
-/* ── LIVE DATA STRIP (real prices, real sparkline) ── */
+
 function LiveDataStrip({ ticker, fallbackResult }) {
   const { data: live } = useLiveData(ticker);
   const data = live || fallbackResult?.live_data;
@@ -311,7 +310,6 @@ function LiveDataStrip({ ticker, fallbackResult }) {
   );
 }
 
-/* ── RADAR CHART (4-axis verdict visualization) ── */
 function RadarChart({ result, label }) {
   if (!result?.breakdown) return null;
   const dims = ["valuation","growth","risk","conditions"];
@@ -357,7 +355,7 @@ function RadarChart({ result, label }) {
   );
 }
 
-/* ── CONVICTION GAUGE (semicircle dial) ── */
+
 function ConvictionGauge({ value, verdict }) {
   const pct = Math.max(0, Math.min(100, value || 50));
   const angle = -Math.PI + (Math.PI * pct/100);
@@ -376,7 +374,7 @@ function ConvictionGauge({ value, verdict }) {
   );
 }
 
-/* ── COMPARISON CHART (side-by-side bars) ── */
+
 function ComparisonChart({ resA, resB, nameA, nameB }) {
   const dims=[['valuation','Valuation'],['growth','Growth'],['risk','Risk'],['conditions','Conditions']];
   const W=580, H=210, pL=28, pR=20, pT=44, pB=36, cw=W-pL-pR, ch=H-pT-pB, gw=cw/dims.length, bw=gw*0.28;
@@ -407,7 +405,7 @@ function ComparisonChart({ resA, resB, nameA, nameB }) {
   );
 }
 
-/* ── PORTFOLIO COMPOSITION DONUT (monochrome) ── */
+
 function PortfolioDonut({ holdings, positions }) {
   if (!holdings || holdings.length === 0) return null;
   const total = holdings.reduce((s,h) => s + h.weight_pct, 0);
@@ -453,7 +451,7 @@ function PortfolioDonut({ holdings, positions }) {
   );
 }
 
-/* ── PORTFOLIO CONVICTION SCATTER (monochrome) ── */
+
 function ConvictionScatter({ positions, holdings }) {
   if (!positions || positions.length === 0) return null;
   const W=440, H=240, pL=42, pR=20, pT=22, pB=42;
@@ -497,10 +495,10 @@ function ConvictionScatter({ positions, holdings }) {
   );
 }
 
-/* ── PRINCIPLE BAR CHART (DNA Lab) ── */
 
 
-/* ── SHARED ── */
+
+
 function Loading({ text }) {
   return (
     <div className="loading">
@@ -557,7 +555,7 @@ function FeatCard({num,title,desc,delay,tiltDepth}) {
   );
 }
 
-/* ── TAB 1: STRESS TEST ── */
+
 function StressTest({tiltDepth}) {
   const [investor,setInvestor]=useState("buffett");
   const [scenario,setScenario]=useState("");
@@ -629,7 +627,7 @@ function StressTest({tiltDepth}) {
   );
 }
 
-/* ── TAB 2: SIDE BY SIDE ── */
+
 function SideBySide() {
   const [invA,setInvA]=useState("buffett");
   const [invB,setInvB]=useState("dalio");
@@ -689,7 +687,7 @@ function SideBySide() {
   );
 }
 
-/* ── TAB 3: PRACTICE MODE ── */
+
 function PracticeMode() {
   const [phase,setPhase]=useState("input");
   const [scenario,setScenario]=useState("");
@@ -769,7 +767,7 @@ function PracticeMode() {
   );
 }
 
-/* ── TAB 4: DNA LAB ── */
+
 function CloneLab({tiltDepth}) {
   const [selected,setSelected]=useState("buffett");
   const [revealed,setRevealed]=useState(null);
@@ -815,7 +813,7 @@ function CloneLab({tiltDepth}) {
   );
 }
 
-/* ── HERO SVG ── */
+
 function HeroSVG() {
   return(
     <svg viewBox="0 0 360 320" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',maxWidth:'360px'}}>
@@ -850,7 +848,7 @@ function HeroSVG() {
   );
 }
 
-/* ── TAB 5: PORTFOLIO MODE (MONOCHROME) ── */
+
 function PortfolioMode() {
   const STOCK_OPTS = {
     NVDA:"Nvidia (NVDA) — AI chip leader.",
@@ -1085,7 +1083,7 @@ function PortfolioMode() {
   );
 }
 
-/* ── APP ── */
+
 function App() {
   const [tab,setTab]=useState(0);
   const tabs=["Stress Test","Side-by-Side","Practice Mode","Quant Lab","Portfolio"];
