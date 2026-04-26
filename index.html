@@ -723,7 +723,14 @@ function PracticeMode() {
         <div className="picker-head"><div><div className="picker-eye">Step 1</div><div className="picker-title">Pick a stock to analyze</div><div className="picker-sub">Choose a stock — live fundamentals load automatically. Make your verdict, then reveal the masters.</div></div><div className="picker-num">01</div></div>
         <div className="picker-div"></div>
         <div className="picker-lbl">Quick stock select</div>
-        <div className="chips">{Object.entries(STOCKS).map(([t,s])=><button key={t} className={`chip ${scenario===s.text?'active':''}`} onClick={()=>setScenario(s.text)}>{t}</button>)}</div>
+        <div className="chips" style={{marginBottom:16}}>{Object.entries(STOCKS).map(([t,s])=><button key={t} className={`chip ${scenario===s.text?'active':''}`} onClick={()=>setScenario(s.text)}>{t}</button>)}</div>
+<div className="slbl">Or describe your own stock</div>
+<textarea
+  value={scenario}
+  onChange={e=>setScenario(e.target.value)}
+  placeholder="e.g. NVDA — AI chip maker, P/E 60x, revenue +122% YoY…"
+  style={{marginBottom:12,minHeight:80}}
+/>
       </div>
       {scenario&&(
         <div>
@@ -763,7 +770,7 @@ function PracticeMode() {
 }
 
 /* ── TAB 4: DNA LAB ── */
-function DNALab({tiltDepth}) {
+function CloneLab({tiltDepth}) {
   const [selected,setSelected]=useState("buffett");
   const [revealed,setRevealed]=useState(null);
   const [loading,setLoading]=useState(false);
@@ -905,6 +912,23 @@ function PortfolioMode() {
           <div className="picker-num">01</div>
         </div>
         <div className="picker-div"></div>
+        <div style={{display:'flex',gap:24,marginBottom:20,padding:'12px 16px',background:'rgba(255,255,255,0.03)',borderRadius:10,border:'1px solid rgba(255,255,255,0.06)'}}>
+        <div style={{display:'flex',gap:8,alignItems:'flex-start'}}>
+          <div style={{width:4,height:4,borderRadius:'50%',background:'rgba(255,255,255,0.4)',marginTop:5,flexShrink:0}}/>
+          <div>
+            <div style={{fontSize:'10px',fontWeight:700,letterSpacing:'0.12em',textTransform:'uppercase',color:'rgba(255,255,255,0.5)',marginBottom:3}}>Total Weight</div>
+            <div style={{fontSize:'12px',color:'var(--muted)',lineHeight:1.5}}>All positions should add up to <strong style={{color:'#fff'}}>100%</strong> of your portfolio. The counter top-right updates as you adjust.</div>
+          </div>
+        </div>
+        <div style={{width:1,background:'rgba(255,255,255,0.06)',flexShrink:0}}/>
+        <div style={{display:'flex',gap:8,alignItems:'flex-start'}}>
+          <div style={{width:4,height:4,borderRadius:'50%',background:'rgba(255,255,255,0.4)',marginTop:5,flexShrink:0}}/>
+          <div>
+            <div style={{fontSize:'10px',fontWeight:700,letterSpacing:'0.12em',textTransform:'uppercase',color:'rgba(255,255,255,0.5)',marginBottom:3}}>Slider</div>
+            <div style={{fontSize:'12px',color:'var(--muted)',lineHeight:1.5}}>Drag to set what <strong style={{color:'#fff'}}>% of your portfolio</strong> is allocated to each position. Max 80% per position.</div>
+          </div>
+        </div>
+      </div>
         <div className="inv-grid" style={{marginBottom:'8px'}}>
           {Object.entries(INVESTORS).map(([k,v]) => (
             <div key={k} className={`inv-card ${focusInvestor===k?'active':''}`} onClick={()=>{setFocusInvestor(k);setResult(null);}}>
