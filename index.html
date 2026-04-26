@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DecisionDNA — AI Investor Intelligence</title>
+<title>QuantClone — AI Investor Intelligence</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
@@ -24,6 +24,8 @@ nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-co
 .nav-logo{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.5px}
 .nav-logo span{color:rgba(255,255,255,0.35)}
 .nav-pill{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:20px;background:rgba(255,255,255,0.07);border:1px solid var(--border);color:var(--muted)}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#34D399;display:inline-block;margin-right:6px;animation:livepulse 2s infinite}
+@keyframes livepulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(52,211,153,0.7)}50%{opacity:.6;box-shadow:0 0 0 6px rgba(52,211,153,0)}}
 .hero{display:grid;grid-template-columns:1fr 360px;gap:48px;align-items:center;max-width:1200px;margin:0 auto;padding:80px 48px 60px}
 .hero-eye{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
 .hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(38px,4.5vw,62px);font-weight:700;line-height:1.05;letter-spacing:-2px;margin-bottom:22px}
@@ -156,31 +158,34 @@ input[type=range]{width:100%;accent-color:#fff}
 .section-divider{max-width:1200px;margin:0 auto;padding:0 48px;margin-bottom:72px}
 .divider-line{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent)}
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.6}
+
+/* === LIVE DATA STRIP === */
+.live-strip{display:flex;align-items:center;gap:18px;padding:14px 18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;margin-bottom:14px;flex-wrap:wrap}
+.live-tick{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:#fff;letter-spacing:-0.5px}
+.live-price{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:600;color:#fff;letter-spacing:-1px}
+.live-change{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;padding:3px 9px;border-radius:5px}
+.live-change.up{background:rgba(52,211,153,0.15);color:#34D399}
+.live-change.down{background:rgba(248,113,113,0.15);color:#F87171}
+.live-meta{font-size:11px;color:var(--dim);display:flex;flex-direction:column;gap:2px}
+.live-meta strong{color:rgba(255,255,255,0.7);font-weight:600}
+
+/* === MONOCHROME PORTFOLIO === */
+.mono-banner{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:28px 32px;margin-bottom:20px;display:flex;align-items:center;gap:28px}
+.mono-score{font-family:'Space Grotesk',sans-serif;font-size:72px;font-weight:700;color:#fff;letter-spacing:-4px;line-height:1}
+.mono-pos-row{display:grid;grid-template-columns:80px 1fr 120px 100px 32px;gap:12px;align-items:center;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px 16px}
+.mono-verdict{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);border-radius:6px;padding:4px 10px;text-align:center;font-size:11px;font-weight:700;color:#fff;font-family:'Space Grotesk',sans-serif;letter-spacing:0.5px}
+.mono-verdict.buy{background:rgba(255,255,255,0.92);color:#000}
+.mono-verdict.sell{background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.5);border-color:rgba(255,255,255,0.08)}
+.mono-pill{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:600;color:rgba(255,255,255,0.7)}
+.mono-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:18px 22px}
+.mono-bar{height:3px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden}
+.mono-bar-fill{height:100%;background:rgba(255,255,255,0.85);border-radius:2px;transition:width 1s cubic-bezier(.16,1,.3,1)}
 </style>
 </head>
 <body>
 <div id="root"></div>
 <script type="text/babel">
 const { useState, useRef, useCallback, useEffect } = React;
-
-/* ── TWEAKS (inlined — no external file needed) ── */
-function useTweaks(defaults) {
-  const [tweaks, setTweaks] = useState(defaults);
-  const setTweak = (key, val) => setTweaks(prev => ({...prev, [key]: val}));
-  return [tweaks, setTweak];
-}
-function TweaksPanel({ children }) { return null; }
-function TweakSection({ label }) { return null; }
-function TweakSlider({ label, id, min, max, step, value, onChange }) { return null; }
-function TweakToggle({ label, id, value, onChange }) { return null; }
-function TweakRadio({ label, id, value, options, onChange }) { return null; }
-
-const TWEAK_DEFAULTS = {
-  "tiltDepth": 1,
-  "revealSpeed": 1,
-  "cardGlow": true,
-  "bgTone": "black"
-};
 
 /* ── SCROLL REVEAL ── */
 function useScrollReveal() {
@@ -229,11 +234,11 @@ const INVESTORS = {
 };
 
 const STOCKS = {
-  NVDA:{ label:"Nvidia", text:"Nvidia (NVDA) is the dominant AI chip maker. P/E of 60x. Revenue grew 122% YoY driven by data center GPU demand. Gross margins at 75%+. $25B cash. Main risk: customer concentration and rising competition from AMD and custom silicon." },
-  AAPL:{ label:"Apple", text:"Apple (AAPL) trades at 30x earnings. iPhone revenue growing 4% YoY. Services segment growing 15% annually. $180B in cash and buybacks. Strong brand moat. Risk: China exposure (18% of revenue) and slowing upgrade cycles." },
-  TSLA:{ label:"Tesla", text:"Tesla (TSLA) trades at 80x earnings. Deliveries grew 6% YoY, margins compressed to 17%. Elon Musk distraction risk. Strong brand but increasing competition from BYD, GM, and others." },
-  MSFT:{ label:"Microsoft", text:"Microsoft (MSFT) at 35x earnings. Azure cloud growing 29% YoY. Copilot AI integration across Office 365. $80B cash, AAA balance sheet. Near-monopoly in enterprise software. Risk: antitrust scrutiny and OpenAI dependency." },
-  AMZN:{ label:"Amazon", text:"Amazon (AMZN) at 45x earnings. AWS growing 19% YoY. Advertising business ($47B) growing 27%. Retail margins improving. Risk: regulatory pressure and slowing AWS growth." },
+  NVDA:{ label:"Nvidia", text:"Nvidia (NVDA) is the dominant AI chip maker. Main risk: customer concentration and rising competition from AMD and custom silicon." },
+  AAPL:{ label:"Apple",  text:"Apple (AAPL) consumer hardware and services giant. Risk: China exposure (18% of revenue) and slowing upgrade cycles." },
+  TSLA:{ label:"Tesla",  text:"Tesla (TSLA) EV and energy company. Elon Musk distraction risk. Strong brand but increasing competition from BYD, GM, and others." },
+  MSFT:{ label:"Microsoft", text:"Microsoft (MSFT) enterprise software and cloud leader. Copilot AI integration across Office 365. Risk: antitrust scrutiny and OpenAI dependency." },
+  AMZN:{ label:"Amazon", text:"Amazon (AMZN) cloud, retail, and advertising giant. AWS is #1 cloud provider. Risk: regulatory pressure and slowing AWS growth." },
 };
 
 const STRESS_OPTS = {
@@ -243,57 +248,142 @@ const STRESS_OPTS = {
   "Sector Boom":"The sector experiences a major tailwind and 40% sector-wide rally.",
 };
 
-const SPARKLINES = {
-  NVDA:[32,36,40,38,44,54,51,59,64,71,67,74,79,77,84,89,87,91,94,97],
-  AAPL:[58,61,64,62,67,69,66,71,73,70,74,72,77,75,79,77,81,79,82,81],
-  TSLA:[78,73,83,68,63,76,58,70,53,66,48,60,43,56,50,63,46,58,53,50],
-  MSFT:[48,51,53,55,54,58,60,63,61,66,68,70,69,73,72,76,75,78,80,82],
-  AMZN:[43,46,50,48,53,56,54,60,63,58,66,68,65,71,73,70,76,78,75,80],
-};
-
 function detectTicker(text) {
-  for (const t of Object.keys(STOCKS)) { if (text && text.includes(t)) return t; }
+  if (!text) return null;
+  const m = text.match(/\(([A-Z]{1,5})\)/);
+  if (m) return m[1];
+  for (const t of Object.keys(STOCKS)) { if (text.includes(t)) return t; }
   return null;
 }
 
-/* ── CHART COMPONENTS ── */
-function SparklineChart({ ticker, result }) {
-  const data = SPARKLINES[ticker]; if (!data) return null;
-  const W=480, H=110, pad=14, cw=W-pad*2, ch=H-pad*2;
-  const mn=Math.min(...data), mx=Math.max(...data);
-  const pts=data.map((v,i)=>({x:pad+i*(cw/(data.length-1)),y:pad+ch-(((v-mn)/(mx-mn))*ch)}));
-  const pathD=pts.map((p,i)=>{ if(i===0)return `M${p.x},${p.y}`; const pv=pts[i-1]; const cx=(pv.x+p.x)/2; return `C${cx},${pv.y} ${cx},${p.y} ${p.x},${p.y}`; }).join(' ');
-  const areaD=pathD+` L${pts[pts.length-1].x},${pad+ch} L${pad},${pad+ch} Z`;
-  const v=result?.verdict; const lc=v==='BUY'?'#34D399':v==='SELL'?'#F87171':'#FBBF24';
-  const last=pts[pts.length-1]; const pct=((data[data.length-1]-data[0])/data[0]*100).toFixed(1);
-  const up=pct>=0;
+/* ── LIVE DATA HOOK ── */
+function useLiveData(ticker) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    if (!ticker) { setData(null); return; }
+    setLoading(true);
+    fetch(`/api/market/${ticker}`)
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { setData(d); setLoading(false); })
+      .catch(() => { setData(null); setLoading(false); });
+  }, [ticker]);
+  return { data, loading };
+}
+
+/* ── LIVE DATA STRIP (real prices, real sparkline) ── */
+function LiveDataStrip({ ticker, fallbackResult }) {
+  const { data: live } = useLiveData(ticker);
+  const data = live || fallbackResult?.live_data;
+  if (!data) return null;
+  const sl = data.sparkline || [];
+  const W=180, H=40;
+  let path = "", area = "";
+  if (sl.length > 1) {
+    const mn = Math.min(...sl), mx = Math.max(...sl), rng = mx - mn || 1;
+    const pts = sl.map((v,i) => ({ x: (i/(sl.length-1))*W, y: H - ((v-mn)/rng)*H }));
+    path = pts.map((p,i) => i===0?`M${p.x},${p.y}`:`L${p.x},${p.y}`).join(' ');
+    area = path + ` L${W},${H} L0,${H} Z`;
+  }
+  const up = (data.change_pct || 0) >= 0;
+  const lc = up ? "#34D399" : "#F87171";
   return (
-    <div style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:'12px',padding:'16px 20px',marginTop:'14px'}}>
-      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'6px'}}>
-        <div style={{fontSize:'10px',fontWeight:700,letterSpacing:'0.16em',textTransform:'uppercase',color:'rgba(255,255,255,0.28)'}}>Price Trend — {ticker}</div>
-        <div style={{fontSize:'13px',fontWeight:700,color:up?'#34D399':'#F87171'}}>{up?'+':''}{pct}%</div>
+    <div className="live-strip">
+      <span className="live-dot"></span>
+      <div className="live-tick">{data.ticker}</div>
+      <div className="live-price">${data.price?.toFixed(2)}</div>
+      {data.change_pct !== undefined && (
+        <div className={`live-change ${up?'up':'down'}`}>{up?'+':''}{data.change_pct?.toFixed(2)}%</div>
+      )}
+      {sl.length > 1 && (
+        <svg viewBox={`0 0 ${W} ${H}`} style={{width:'180px',height:'40px',flexShrink:0}}>
+          <defs><linearGradient id={`grd-${data.ticker}`} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={lc} stopOpacity="0.3"/><stop offset="100%" stopColor={lc} stopOpacity="0"/></linearGradient></defs>
+          <path d={area} fill={`url(#grd-${data.ticker})`}/>
+          <path d={path} fill="none" stroke={lc} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      )}
+      <div style={{display:'flex',gap:14,marginLeft:'auto',flexWrap:'wrap'}}>
+        {data.market_cap_fmt && <div className="live-meta"><span>Market Cap</span><strong>{data.market_cap_fmt}</strong></div>}
+        {data.pe_ratio && <div className="live-meta"><span>P/E</span><strong>{Number(data.pe_ratio).toFixed(1)}</strong></div>}
+        {data.sector && <div className="live-meta"><span>Sector</span><strong>{data.sector}</strong></div>}
       </div>
-      <svg viewBox={`0 0 ${W} ${H}`} style={{width:'100%',height:'auto'}}>
-        <defs><linearGradient id={`sg${ticker}`} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={lc} stopOpacity="0.2"/><stop offset="100%" stopColor={lc} stopOpacity="0"/></linearGradient></defs>
-        {[25,50,75].map(pv=>{ const y=pad+ch-((pv-mn)/(mx-mn))*ch; return <line key={pv} x1={pad} y1={y} x2={W-pad} y2={y} stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>; })}
-        <path d={areaD} fill={`url(#sg${ticker})`}/>
-        <path d={pathD} fill="none" stroke={lc} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-        <circle cx={last.x} cy={last.y} r="5" fill={lc} opacity="0.9"/>
-        <circle cx={last.x} cy={last.y} r="9" fill={lc} opacity="0.18"/>
+    </div>
+  );
+}
+
+/* ── RADAR CHART (4-axis verdict visualization) ── */
+function RadarChart({ result, label }) {
+  if (!result?.breakdown) return null;
+  const dims = ["valuation","growth","risk","conditions"];
+  const labels = ["Valuation","Growth","Risk","Conditions"];
+  const scores = dims.map(d => result.breakdown[d]?.score || 50);
+  const cx=160, cy=160, R=110;
+  const angle = (i) => (Math.PI*2 * i / 4) - Math.PI/2;
+  const pt = (i, r) => ({ x: cx + Math.cos(angle(i))*r, y: cy + Math.sin(angle(i))*r });
+  const dataPoints = scores.map((s,i) => pt(i, R * (s/100)));
+  const dataPath = dataPoints.map((p,i) => `${i===0?'M':'L'}${p.x},${p.y}`).join(' ') + ' Z';
+  const v = result.verdict;
+  const lc = v==='BUY' ? '#34D399' : v==='SELL' ? '#F87171' : '#FBBF24';
+  return (
+    <div className="card" style={{marginBottom:14,padding:'20px 24px'}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
+        <div style={{fontSize:'10px',fontWeight:700,letterSpacing:'0.16em',textTransform:'uppercase',color:'rgba(255,255,255,0.4)'}}>Decision Radar {label && `· ${label}`}</div>
+        <div style={{fontSize:'11px',color:lc,fontWeight:600}}>{v} · {result.conviction}</div>
+      </div>
+      <svg viewBox="0 0 320 320" style={{width:'100%',maxHeight:'320px'}}>
+        {/* concentric grid */}
+        {[0.25,0.5,0.75,1].map(f => (
+          <polygon key={f} points={[0,1,2,3].map(i => { const p = pt(i, R*f); return `${p.x},${p.y}`; }).join(' ')}
+                   fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1"/>
+        ))}
+        {/* axes */}
+        {[0,1,2,3].map(i => { const p = pt(i, R); return <line key={i} x1={cx} y1={cy} x2={p.x} y2={p.y} stroke="rgba(255,255,255,0.06)" strokeWidth="1"/>; })}
+        {/* data polygon */}
+        <path d={dataPath} fill={lc} fillOpacity="0.18" stroke={lc} strokeWidth="2" strokeLinejoin="round"/>
+        {dataPoints.map((p,i) => <circle key={i} cx={p.x} cy={p.y} r="4" fill={lc}/>)}
+        {/* labels */}
+        {labels.map((l,i) => {
+          const p = pt(i, R + 24);
+          const score = scores[i];
+          return (
+            <g key={l}>
+              <text x={p.x} y={p.y} textAnchor="middle" fontSize="11" fill="rgba(255,255,255,0.55)" fontFamily="Inter,sans-serif" fontWeight="600">{l}</text>
+              <text x={p.x} y={p.y+13} textAnchor="middle" fontSize="10" fill="rgba(255,255,255,0.3)" fontFamily="Space Grotesk,sans-serif">{score}</text>
+            </g>
+          );
+        })}
       </svg>
     </div>
   );
 }
 
+/* ── CONVICTION GAUGE (semicircle dial) ── */
+function ConvictionGauge({ value, verdict }) {
+  const pct = Math.max(0, Math.min(100, value || 50));
+  const angle = -Math.PI + (Math.PI * pct/100);
+  const cx=110, cy=110, r=84;
+  const ax = cx + Math.cos(-Math.PI)*r, ay = cy + Math.sin(-Math.PI)*r;
+  const bx = cx + Math.cos(0)*r, by = cy + Math.sin(0)*r;
+  const ex = cx + Math.cos(angle)*r, ey = cy + Math.sin(angle)*r;
+  const lc = verdict==='BUY' ? '#34D399' : verdict==='SELL' ? '#F87171' : '#FBBF24';
+  return (
+    <svg viewBox="0 0 220 130" style={{width:'180px',height:'auto'}}>
+      <path d={`M${ax},${ay} A${r},${r} 0 0,1 ${bx},${by}`} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="10" strokeLinecap="round"/>
+      <path d={`M${ax},${ay} A${r},${r} 0 0,1 ${ex},${ey}`} fill="none" stroke={lc} strokeWidth="10" strokeLinecap="round"/>
+      <text x={cx} y={cy-8} textAnchor="middle" fontSize="32" fontWeight="700" fill="#fff" fontFamily="Space Grotesk,sans-serif">{pct}</text>
+      <text x={cx} y={cy+10} textAnchor="middle" fontSize="9" fill="rgba(255,255,255,0.45)" fontFamily="Inter,sans-serif" fontWeight="600" letterSpacing="2">CONVICTION</text>
+    </svg>
+  );
+}
+
+/* ── COMPARISON CHART (side-by-side bars) ── */
 function ComparisonChart({ resA, resB, nameA, nameB }) {
   const dims=[['valuation','Valuation'],['growth','Growth'],['risk','Risk'],['conditions','Conditions']];
   const W=580, H=210, pL=28, pR=20, pT=44, pB=36, cw=W-pL-pR, ch=H-pT-pB, gw=cw/dims.length, bw=gw*0.28;
   return (
     <div className="reveal" data-delay="0.05" style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:'14px',padding:'20px 24px',marginTop:'24px'}}>
       <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'4px'}}>
-        <div style={{fontSize:'10px',fontWeight:700,letterSpacing:'0.16em',textTransform:'uppercase',color:'rgba(255,255,255,0.28)',display:'flex',alignItems:'center',gap:'8px'}}>
-          <span style={{width:'12px',height:'1px',background:'rgba(255,255,255,0.18)',display:'inline-block'}}></span>Dimension Comparison
-        </div>
+        <div style={{fontSize:'10px',fontWeight:700,letterSpacing:'0.16em',textTransform:'uppercase',color:'rgba(255,255,255,0.28)'}}>Dimension Comparison</div>
         <div style={{display:'flex',gap:'16px',alignItems:'center'}}>
           <div style={{display:'flex',gap:'6px',alignItems:'center'}}><div style={{width:'10px',height:'10px',borderRadius:'2px',background:'rgba(255,255,255,0.7)'}}></div><span style={{fontSize:'11px',color:'rgba(255,255,255,0.45)'}}>{nameA}</span></div>
           <div style={{display:'flex',gap:'6px',alignItems:'center'}}><div style={{width:'10px',height:'10px',borderRadius:'2px',background:'rgba(255,255,255,0.25)'}}></div><span style={{fontSize:'11px',color:'rgba(255,255,255,0.3)'}}>{nameB}</span></div>
@@ -317,7 +407,100 @@ function ComparisonChart({ resA, resB, nameA, nameB }) {
   );
 }
 
-/* ── SHARED COMPONENTS ── */
+/* ── PORTFOLIO COMPOSITION DONUT (monochrome) ── */
+function PortfolioDonut({ holdings, positions }) {
+  if (!holdings || holdings.length === 0) return null;
+  const total = holdings.reduce((s,h) => s + h.weight_pct, 0);
+  const cx=120, cy=120, rOuter=100, rInner=68;
+  let acc = 0;
+  // Grayscale palette — varies opacity to differentiate positions
+  const grayShade = (i) => {
+    const shades = [0.95, 0.78, 0.62, 0.48, 0.36, 0.27, 0.20, 0.14];
+    return `rgba(255,255,255,${shades[i % shades.length]})`;
+  };
+  const slices = holdings.map((h, i) => {
+    const frac = h.weight_pct / total;
+    const a0 = (acc / total) * Math.PI * 2 - Math.PI/2;
+    acc += h.weight_pct;
+    const a1 = (acc / total) * Math.PI * 2 - Math.PI/2;
+    const x0 = cx + Math.cos(a0)*rOuter, y0 = cy + Math.sin(a0)*rOuter;
+    const x1 = cx + Math.cos(a1)*rOuter, y1 = cy + Math.sin(a1)*rOuter;
+    const x2 = cx + Math.cos(a1)*rInner, y2 = cy + Math.sin(a1)*rInner;
+    const x3 = cx + Math.cos(a0)*rInner, y3 = cy + Math.sin(a0)*rInner;
+    const large = frac > 0.5 ? 1 : 0;
+    const d = `M${x0},${y0} A${rOuter},${rOuter} 0 ${large},1 ${x1},${y1} L${x2},${y2} A${rInner},${rInner} 0 ${large},0 ${x3},${y3} Z`;
+    // Label position
+    const am = (a0 + a1) / 2;
+    const lx = cx + Math.cos(am) * (rOuter + 16);
+    const ly = cy + Math.sin(am) * (rOuter + 16);
+    return { d, ticker: h.ticker, weight: h.weight_pct, color: grayShade(i), lx, ly };
+  });
+  return (
+    <div className="mono-card">
+      <div style={{fontSize:'10px',fontWeight:700,letterSpacing:'0.16em',textTransform:'uppercase',color:'rgba(255,255,255,0.4)',marginBottom:14}}>Allocation</div>
+      <svg viewBox="0 0 280 280" style={{width:'100%',height:'auto',maxHeight:'280px'}}>
+        {slices.map((s,i) => (
+          <g key={i}>
+            <path d={s.d} fill={s.color} stroke="#080808" strokeWidth="2"/>
+            <text x={s.lx} y={s.ly} textAnchor="middle" fontSize="10" fill="rgba(255,255,255,0.65)" fontFamily="Space Grotesk,sans-serif" fontWeight="700">{s.ticker}</text>
+            <text x={s.lx} y={s.ly+12} textAnchor="middle" fontSize="9" fill="rgba(255,255,255,0.35)" fontFamily="Inter,sans-serif">{s.weight}%</text>
+          </g>
+        ))}
+        <text x={cx} y={cy-4} textAnchor="middle" fontSize="11" fill="rgba(255,255,255,0.35)" fontFamily="Inter,sans-serif" fontWeight="600" letterSpacing="2">TOTAL</text>
+        <text x={cx} y={cy+18} textAnchor="middle" fontSize="22" fill="#fff" fontFamily="Space Grotesk,sans-serif" fontWeight="700">{total}%</text>
+      </svg>
+    </div>
+  );
+}
+
+/* ── PORTFOLIO CONVICTION SCATTER (monochrome) ── */
+function ConvictionScatter({ positions, holdings }) {
+  if (!positions || positions.length === 0) return null;
+  const W=440, H=240, pL=42, pR=20, pT=22, pB=42;
+  const cw = W-pL-pR, ch = H-pT-pB;
+  return (
+    <div className="mono-card">
+      <div style={{fontSize:'10px',fontWeight:700,letterSpacing:'0.16em',textTransform:'uppercase',color:'rgba(255,255,255,0.4)',marginBottom:14}}>Conviction × Weight</div>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{width:'100%',height:'auto'}}>
+        {/* axes */}
+        <line x1={pL} y1={pT} x2={pL} y2={pT+ch} stroke="rgba(255,255,255,0.1)"/>
+        <line x1={pL} y1={pT+ch} x2={W-pR} y2={pT+ch} stroke="rgba(255,255,255,0.1)"/>
+        {/* gridlines */}
+        {[25,50,75].map(v => {
+          const y = pT + ch - (v/100)*ch;
+          return <g key={v}><line x1={pL} y1={y} x2={W-pR} y2={y} stroke="rgba(255,255,255,0.04)" strokeDasharray="2,3"/><text x={pL-6} y={y+3} textAnchor="end" fontSize="9" fill="rgba(255,255,255,0.3)">{v}</text></g>;
+        })}
+        {[20,40,60].map(v => {
+          const x = pL + (v/80)*cw;
+          return <g key={v}><line x1={x} y1={pT} x2={x} y2={pT+ch} stroke="rgba(255,255,255,0.04)" strokeDasharray="2,3"/><text x={x} y={pT+ch+14} textAnchor="middle" fontSize="9" fill="rgba(255,255,255,0.3)">{v}%</text></g>;
+        })}
+        <text x={pL-6} y={pT+8} textAnchor="end" fontSize="9" fill="rgba(255,255,255,0.4)" fontWeight="700">CONV</text>
+        <text x={(W-pL-pR)/2 + pL} y={H-6} textAnchor="middle" fontSize="9" fill="rgba(255,255,255,0.4)" fontWeight="700" letterSpacing="1.5">WEIGHT %</text>
+        {/* points */}
+        {positions.map((p, i) => {
+          const h = holdings.find(hh => hh.ticker.toUpperCase() === p.ticker.toUpperCase());
+          if (!h) return null;
+          const x = pL + (Math.min(h.weight_pct, 80)/80) * cw;
+          const y = pT + ch - (p.conviction/100) * ch;
+          const radius = 4 + (h.weight_pct/80)*8;
+          const opacity = p.verdict === 'BUY' ? 0.95 : p.verdict === 'SELL' ? 0.3 : 0.6;
+          return (
+            <g key={i}>
+              <circle cx={x} cy={y} r={radius} fill="#fff" opacity={opacity}/>
+              <circle cx={x} cy={y} r={radius+3} fill="none" stroke="#fff" strokeOpacity="0.2"/>
+              <text x={x} y={y-radius-4} textAnchor="middle" fontSize="10" fill="#fff" fontFamily="Space Grotesk,sans-serif" fontWeight="700">{p.ticker}</text>
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  );
+}
+
+/* ── PRINCIPLE BAR CHART (DNA Lab) ── */
+
+
+/* ── SHARED ── */
 function Loading({ text }) {
   return (
     <div className="loading">
@@ -343,7 +526,7 @@ function VerdictCard({ result }) {
       <div className="verdict-wrap">
         <div className={`verdict-top ${vc}`}>
           <div><div className="verdict-lbl">{verdict}</div><div style={{fontSize:'10px',fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',color:'rgba(255,255,255,0.4)',marginTop:'4px'}}>Verdict</div></div>
-          <div><div className="conviction-n">{conviction}</div><div className="conviction-l">Conviction / 100</div></div>
+          <ConvictionGauge value={conviction} verdict={verdict} />
         </div>
       </div>
       <div className="bd-grid">
@@ -366,7 +549,7 @@ function VerdictCard({ result }) {
 function FeatCard({num,title,desc,delay,tiltDepth}) {
   const t=useTilt(tiltDepth);
   return (
-    <div className="feat-card reveal" data-delay={delay} ref={t.ref} onMouseMove={t.onMouseMove} onMouseLeave={t.onMouseLeave}>
+    <div className="feat-card" ref={t.ref} onMouseMove={t.onMouseMove} onMouseLeave={t.onMouseLeave}>
       <div className="feat-num">{num}</div>
       <div className="feat-title">{title}</div>
       <div className="feat-desc">{desc}</div>
@@ -381,21 +564,23 @@ function StressTest({tiltDepth}) {
   const [stress,setStress]=useState("");
   const [result,setResult]=useState(null);
   const [loading,setLoading]=useState(false);
+  const ticker = detectTicker(scenario);
+
   const run=async()=>{ if(!scenario.trim())return; setLoading(true);setResult(null);
     try {
-      const r = await fetch('/api/stress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({investor,scenario,stress})});
+      const r = await fetch('/api/stress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({investor,scenario,stress,ticker})});
       const data = await r.json();
       if(data.error){alert('Error: '+data.error);setLoading(false);return;}
       setResult(data);
     } catch(e){ alert('Network error: '+e.message); }
     setLoading(false);
   };
-  const ticker=detectTicker(scenario);
+
   return (
     <div>
-      <div className="picker-card reveal" data-delay="0.05">
+      <div className="picker-card">
         <div className="picker-head">
-          <div><div className="picker-eye">Step 1</div><div className="picker-title">Pick a stock or describe one</div><div className="picker-sub">Use a preset to load a real scenario, or paste your own analysis.</div></div>
+          <div><div className="picker-eye">Step 1</div><div className="picker-title">Pick a stock or describe one</div><div className="picker-sub">Live fundamentals are pulled automatically. Add your own context if you want.</div></div>
           <div className="picker-num">01</div>
         </div>
         <div className="picker-div"></div>
@@ -404,13 +589,13 @@ function StressTest({tiltDepth}) {
       </div>
       <div style={{height:'28px'}}></div>
       <div className="two-col">
-        <div className="reveal" data-delay="0.1">
+        <div className="reveal" >
           <div className="slbl">Investor Clone</div>
           <select value={investor} onChange={e=>setInvestor(e.target.value)} style={{marginBottom:'20px'}}>
             {Object.entries(INVESTORS).map(([k,v])=><option key={k} value={k}>{v.name}</option>)}
           </select>
           <div className="slbl">Stock / Scenario</div>
-          <textarea value={scenario} onChange={e=>setScenario(e.target.value)} placeholder="Describe the stock: ticker, P/E, revenue growth, competitive position, risks, balance sheet…" style={{marginBottom:'20px'}}></textarea>
+          <textarea value={scenario} onChange={e=>setScenario(e.target.value)} placeholder="Describe the stock: ticker, P/E, revenue growth, competitive position, risks…" style={{marginBottom:'20px'}}></textarea>
           <div className="slbl">Stress Conditions (optional)</div>
           <div className="stress-grid" style={{marginBottom:stress?'8px':'18px'}}>
             {Object.entries(STRESS_OPTS).map(([l,m])=><button key={l} className={`stress-chip ${stress===m?'active':''}`} onClick={()=>setStress(stress===m?"":m)}>{l}</button>)}
@@ -419,19 +604,23 @@ function StressTest({tiltDepth}) {
           <div style={{height:'18px'}}></div>
           <button className="btn btn-primary btn-full" onClick={run}>Analyze →</button>
         </div>
-        <div className="reveal" data-delay="0.2">
+        <div className="reveal">
           {loading&&<Loading text={`${INVESTORS[investor].name} is thinking…`} />}
           {result&&!loading&&(
             <div>
               <div className="inv-heading">{INVESTORS[investor].name}</div>
+              <LiveDataStrip ticker={ticker} fallbackResult={result} />
+              <RadarChart result={result} />
               <VerdictCard result={result} />
-              <SparklineChart ticker={ticker} result={result} />
             </div>
           )}
           {!result&&!loading&&(
-            <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'280px',color:'var(--dim)',fontSize:'14px',textAlign:'center',flexDirection:'column',gap:'14px'}}>
-              <div style={{fontSize:'48px',opacity:0.12,fontFamily:"'Space Grotesk',sans-serif",fontWeight:700}}>◐</div>
-              <div>Select a stock and click Analyze<br/>to see the investor's verdict.</div>
+            <div>
+              {ticker && <LiveDataStrip ticker={ticker} />}
+              <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'280px',color:'var(--dim)',fontSize:'14px',textAlign:'center',flexDirection:'column',gap:'14px'}}>
+                <div style={{fontSize:'48px',opacity:0.12,fontFamily:"'Space Grotesk',sans-serif",fontWeight:700}}>◐</div>
+                <div>Select a stock and click Analyze<br/>to see the investor's verdict.</div>
+              </div>
             </div>
           )}
         </div>
@@ -447,9 +636,11 @@ function SideBySide() {
   const [scenario,setScenario]=useState("");
   const [results,setResults]=useState({});
   const [loading,setLoading]=useState(false);
+  const ticker = detectTicker(scenario);
+
   const run=async()=>{ if(!scenario.trim()||invA===invB)return; setLoading(true);setResults({});
     try {
-      const r = await fetch('/api/compare',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({investor_a:invA,investor_b:invB,scenario})});
+      const r = await fetch('/api/compare',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({investor_a:invA,investor_b:invB,scenario,ticker})});
       const data = await r.json();
       if(data.error){alert('Error: '+data.error);setLoading(false);return;}
       setResults({[invA]:data[invA],[invB]:data[invB]});
@@ -457,33 +648,35 @@ function SideBySide() {
     setLoading(false);
   };
   const resA=results[invA], resB=results[invB];
+
   return (
     <div>
-      <div className="two-sel reveal" data-delay="0.05">
+      <div className="two-sel">
         <div><div className="slbl">First Investor</div><select value={invA} onChange={e=>setInvA(e.target.value)}>{Object.entries(INVESTORS).map(([k,v])=><option key={k} value={k}>{v.name}</option>)}</select></div>
         <div><div className="slbl">Second Investor</div><select value={invB} onChange={e=>setInvB(e.target.value)}>{Object.entries(INVESTORS).map(([k,v])=><option key={k} value={k}>{v.name}</option>)}</select></div>
       </div>
-      <div className="picker-card reveal" data-delay="0.1" style={{marginBottom:'20px'}}>
+      <div className="picker-card" style={{marginBottom:'20px'}}>
         <div className="picker-head">
-          <div><div className="picker-eye">Step 2</div><div className="picker-title">Pick a stock to compare</div><div className="picker-sub">The same scenario runs through both frameworks so you can see exactly where their thinking diverges.</div></div>
+          <div><div className="picker-eye">Step 2</div><div className="picker-title">Pick a stock to compare</div><div className="picker-sub">Live fundamentals are pulled, then run through both frameworks at once.</div></div>
           <div className="picker-num">02</div>
         </div>
         <div className="picker-div"></div>
         <div className="picker-lbl">Quick stock select</div>
         <div className="chips">{Object.entries(STOCKS).map(([t,s])=><button key={t} className={`chip ${scenario===s.text?'active':''}`} onClick={()=>setScenario(s.text)}>{t}</button>)}</div>
       </div>
-      <textarea value={scenario} onChange={e=>setScenario(e.target.value)} placeholder="Paste a stock scenario or description…" style={{marginBottom:'16px'}} className="reveal" data-delay="0.15"></textarea>
-      <button className="btn btn-primary reveal" data-delay="0.2" onClick={run} style={{marginBottom:'32px'}}>Compare Both Clones →</button>
+      <textarea value={scenario} onChange={e=>setScenario(e.target.value)} placeholder="Paste a stock scenario or description…" style={{marginBottom:'16px'}} className="reveal" ></textarea>
+      <button className="btn btn-primary reveal"  onClick={run} style={{marginBottom:'20px'}}>Compare Both Clones →</button>
+      {ticker && !loading && <LiveDataStrip ticker={ticker} />}
       {loading&&<Loading text="Running both frameworks simultaneously…" />}
       {!loading&&resA&&resB&&(
         <div>
           <div className="two-equal">
-            <div className="reveal-left visible"><div className="inv-heading">{INVESTORS[invA].name}</div><VerdictCard result={resA} /></div>
-            <div className="reveal-right visible"><div className="inv-heading">{INVESTORS[invB].name}</div><VerdictCard result={resB} /></div>
+            <div className="reveal-left visible"><div className="inv-heading">{INVESTORS[invA].name}</div><RadarChart result={resA} /><VerdictCard result={resA} /></div>
+            <div className="reveal-right visible"><div className="inv-heading">{INVESTORS[invB].name}</div><RadarChart result={resB} /><VerdictCard result={resB} /></div>
           </div>
           <ComparisonChart resA={resA} resB={resB} nameA={INVESTORS[invA].name.split(' ')[1]} nameB={INVESTORS[invB].name.split(' ')[1]} />
           {resA.verdict!==resB.verdict&&(
-            <div className="disagree-box reveal" data-delay="0">
+            <div className="disagree-box reveal">
               <div style={{fontSize:'10px',fontWeight:700,letterSpacing:'0.14em',textTransform:'uppercase',color:'var(--muted)',marginBottom:'6px'}}>Why Did They Disagree?</div>
               <div style={{fontSize:'13px',color:'var(--muted)',lineHeight:1.65,fontStyle:'italic'}}>
                 {INVESTORS[invA].name} said <strong style={{color:'#fff'}}>{resA.verdict}</strong> ({resA.conviction}/100) while {INVESTORS[invB].name} said <strong style={{color:'#fff'}}>{resB.verdict}</strong> ({resB.conviction}/100). This reflects a fundamental difference: {INVESTORS[invA].name} leads with <em>{INVESTORS[invA].style.split('·')[0].trim()}</em>, while {INVESTORS[invB].name} prioritizes <em>{INVESTORS[invB].style.split('·')[0].trim()}</em>.
@@ -506,6 +699,8 @@ function PracticeMode() {
   const [match,setMatch]=useState(null);
   const [loading,setLoading]=useState(false);
   const [history,setHistory]=useState([]);
+  const ticker = detectTicker(scenario);
+
   const reveal=async()=>{ if(!scenario.trim())return; setLoading(true);
     try {
       const r = await fetch('/api/practice',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({scenario,user_verdict:uV,user_confidence:uC})});
@@ -519,12 +714,13 @@ function PracticeMode() {
     setLoading(false);
   };
   const reset=()=>{setPhase("input");setScenario("");setClones({});setMatch(null);};
+
   if(loading)return <Loading text="Scoring your analysis…" />;
   if(phase==="input")return(
     <div>
-      <div style={{fontSize:'14px',color:'var(--muted)',maxWidth:'580px',marginBottom:'28px',lineHeight:1.7}}>Make your own verdict before the investor clones reveal theirs. See how your thinking aligns with the greatest investors of all time.</div>
-      <div className="picker-card reveal" data-delay="0.05">
-        <div className="picker-head"><div><div className="picker-eye">Step 1</div><div className="picker-title">Pick a stock to analyze</div><div className="picker-sub">Choose a stock below. Make your verdict first — then reveal what the masters decided.</div></div><div className="picker-num">01</div></div>
+      <div style={{fontSize:'14px',color:'var(--muted)',maxWidth:'580px',marginBottom:'28px',lineHeight:1.7}}>Make your own verdict before the investor clones reveal theirs. See how your thinking aligns with the masters.</div>
+      <div className="picker-card">
+        <div className="picker-head"><div><div className="picker-eye">Step 1</div><div className="picker-title">Pick a stock to analyze</div><div className="picker-sub">Choose a stock — live fundamentals load automatically. Make your verdict, then reveal the masters.</div></div><div className="picker-num">01</div></div>
         <div className="picker-div"></div>
         <div className="picker-lbl">Quick stock select</div>
         <div className="chips">{Object.entries(STOCKS).map(([t,s])=><button key={t} className={`chip ${scenario===s.text?'active':''}`} onClick={()=>setScenario(s.text)}>{t}</button>)}</div>
@@ -532,8 +728,9 @@ function PracticeMode() {
       {scenario&&(
         <div>
           <div style={{height:'24px'}}></div>
-          <div className="card reveal" data-delay="0.05" style={{marginBottom:'22px'}}><div className="slbl">The Scenario</div><div style={{fontSize:'14px',lineHeight:1.7,color:'var(--muted)'}}>{scenario}</div></div>
-          <div className="reveal" data-delay="0.1">
+          {ticker && <LiveDataStrip ticker={ticker} />}
+          <div className="card" style={{marginBottom:'22px'}}><div className="slbl">The Scenario</div><div style={{fontSize:'14px',lineHeight:1.7,color:'var(--muted)'}}>{scenario}</div></div>
+          <div>
             <div className="slbl">Your Verdict</div>
             <div className="radio-group" style={{marginBottom:'20px'}}>{["BUY","HOLD","SELL"].map(v=><button key={v} className={`radio-opt ${uV===v?`sel-${v.toLowerCase()}`:''}`} onClick={()=>setUV(v)}>{v}</button>)}</div>
             <div className="slbl">Your Confidence</div>
@@ -547,10 +744,10 @@ function PracticeMode() {
   const {score,summary,matches}=match;
   return(
     <div>
-      <div className="score-banner reveal" data-delay="0"><div className="score-big">{score}</div><div className="score-meta"><strong style={{color:'#fff'}}>Your Investor Score</strong><br/>Your call: <strong style={{color:'#fff'}}>{uV}</strong> at {uC}/100 confidence<br/>Sessions played: {history.length}</div></div>
-      {summary&&<div className="summary-box reveal" data-delay="0.05">{summary}</div>}
+      <div className="score-banner"><div className="score-big">{score}</div><div className="score-meta"><strong style={{color:'#fff'}}>Your Investor Score</strong><br/>Your call: <strong style={{color:'#fff'}}>{uV}</strong> at {uC}/100 confidence<br/>Sessions played: {history.length}</div></div>
+      {summary&&<div className="summary-box"> {summary}</div>}
       {matches.map((m,i)=>{ const cls=m.agreement_pct>=70?'c-green':m.agreement_pct<40?'c-red':'c-amber'; const fc=m.agreement_pct>=70?'f-green':m.agreement_pct<40?'f-red':'f-amber'; return(
-        <div className="match-card reveal" data-delay={0.08+i*0.05} key={i}>
+        <div>
           <div className="match-header"><span className="match-name">{m.investor}</span><span className={`match-pct ${cls}`}>{m.agreement_pct}%</span></div>
           <div className="bar-track" style={{marginBottom:'10px'}}><div className={`bar-fill ${fc}`} style={{width:m.agreement_pct+'%'}}></div></div>
           <div className="match-feedback">{m.feedback}</div>
@@ -558,7 +755,7 @@ function PracticeMode() {
       );})}
       <div style={{height:'28px'}}></div>
       <div className="slbl">Full Clone Verdicts</div>
-      <div className="two-equal">{Object.entries(clones).map(([k,v])=><div key={k} className="reveal" data-delay="0.1"><div className="inv-heading">{INVESTORS[k].name}</div><VerdictCard result={v} /></div>)}</div>
+      <div className="two-equal">{Object.entries(clones).map(([k,v])=><div key={k}><div className="inv-heading">{INVESTORS[k].name}</div><RadarChart result={v} /><VerdictCard result={v} /></div>)}</div>
       <div style={{height:'28px'}}></div>
       <button className="btn btn-ghost" onClick={reset}>← Try Another Stock</button>
     </div>
@@ -587,7 +784,7 @@ function DNALab({tiltDepth}) {
         {Object.entries(INVESTORS).map(([k,v],i)=>{
           const t=useTilt(tiltDepth);
           return(
-            <div key={k} className={`inv-card reveal ${selected===k?'active':''}`} data-delay={i*0.07} ref={t.ref} onMouseMove={t.onMouseMove} onMouseLeave={t.onMouseLeave} onClick={()=>{setSelected(k);setRevealed(null);}}>
+            <div key={k} className={`inv-card ${selected===k?'active':''}`}ref={t.ref} onMouseMove={t.onMouseMove} onMouseLeave={t.onMouseLeave} onClick={()=>{setSelected(k);setRevealed(null);}}>
               <div className="inv-init">{v.initials}</div>
               <div className="inv-name">{v.name}</div>
               <div className="inv-style">{v.style}</div>
@@ -595,13 +792,14 @@ function DNALab({tiltDepth}) {
           );
         })}
       </div>
-      <button className="btn btn-primary reveal" data-delay="0.3" style={{marginBottom:'32px'}} onClick={extract}>Extract {INVESTORS[selected].name.split(' ')[1]}'s DNA</button>
+      <button className="btn btn-primary"  style={{marginBottom:'32px'}} onClick={extract}>Extract {INVESTORS[selected].name.split(' ')[1]}'s values</button>
       {loading&&<Loading text={`Extracting ${INVESTORS[selected].name}'s decision framework…`} />}
       {dna&&!loading&&(
         <div>
-          <div className="card reveal" data-delay="0" style={{marginBottom:'22px',borderLeft:'2px solid rgba(255,255,255,0.3)'}}><div className="slbl">Investor Profile</div><div style={{fontSize:'14px',lineHeight:1.75,color:'var(--muted)',fontStyle:'italic'}}>{dna.style}</div></div>
+          <div className="card" style={{marginBottom:'22px',borderLeft:'2px solid rgba(255,255,255,0.3)'}}><div className="slbl">Investor Profile</div><div style={{fontSize:'14px',lineHeight:1.75,color:'var(--muted)',fontStyle:'italic'}}>{dna.style}</div></div>
+          {/* NEW: Principle bar chart visualization */}
           <div className="two-equal">
-            <div className="reveal-left visible"><div className="slbl">Core Principles</div><div className="card">{dna.principles.map((p,i)=><div className="principle-row" key={i}><div className="p-header"><span className="p-name">{p.name}</span><span className="p-weight">{p.weight}</span></div><div className="p-desc">{p.description}</div><div className="p-bar-track"><div className="p-bar-fill" style={{width:p.weight+'%'}}></div></div></div>)}</div></div>
+            <div className="reveal-left visible"><div className="slbl">Core Principles · Detail</div><div className="card">{dna.principles.map((p,i)=><div className="principle-row" key={i}><div className="p-header"><span className="p-name">{p.name}</span><span className="p-weight">{p.weight}</span></div><div className="p-desc">{p.description}</div><div className="p-bar-track"><div className="p-bar-fill" style={{width:p.weight+'%'}}></div></div></div>)}</div></div>
             <div className="reveal-right visible"><div className="slbl">Red Flags — Deal Breakers</div><div className="card">{dna.red_flags.map((f,i)=><div className="flag-row" key={i}><div className="flag-dot"></div><div className="flag-text">{f}</div></div>)}</div></div>
           </div>
         </div>
@@ -645,30 +843,247 @@ function HeroSVG() {
   );
 }
 
+/* ── TAB 5: PORTFOLIO MODE (MONOCHROME) ── */
+function PortfolioMode() {
+  const STOCK_OPTS = {
+    NVDA:"Nvidia (NVDA) — AI chip leader.",
+    AAPL:"Apple (AAPL) — Consumer hardware + services.",
+    TSLA:"Tesla (TSLA) — EV + energy.",
+    MSFT:"Microsoft (MSFT) — Enterprise software + cloud.",
+    AMZN:"Amazon (AMZN) — Cloud + retail + ads.",
+    GOOG:"Alphabet (GOOG) — Search + cloud + AI.",
+    META:"Meta (META) — Social media + AI.",
+    "BRK-B":"Berkshire Hathaway (BRK-B) — Diversified conglomerate.",
+  };
+
+  const [holdings, setHoldings] = useState([
+    { ticker:"AAPL", description: STOCK_OPTS["AAPL"], weight_pct: 30 },
+    { ticker:"MSFT", description: STOCK_OPTS["MSFT"], weight_pct: 25 },
+    { ticker:"NVDA", description: STOCK_OPTS["NVDA"], weight_pct: 25 },
+    { ticker:"AMZN", description: STOCK_OPTS["AMZN"], weight_pct: 20 },
+  ]);
+  const [focusInvestor, setFocusInvestor] = useState("buffett");
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const totalWeight = holdings.reduce((s, h) => s + h.weight_pct, 0);
+
+  const addHolding = (ticker) => {
+    if (holdings.find(h => h.ticker === ticker)) return;
+    if (holdings.length >= 8) return;
+    const remaining = Math.max(0, 100 - totalWeight);
+    setHoldings(prev => [...prev, { ticker, description: STOCK_OPTS[ticker], weight_pct: Math.min(remaining, 15) }]);
+  };
+  const removeHolding = (idx) => setHoldings(prev => prev.filter((_, i) => i !== idx));
+  const updateWeight = (idx, val) => setHoldings(prev => prev.map((h, i) => i === idx ? {...h, weight_pct: Math.max(1, Math.min(99, parseInt(val)))} : h));
+  const [customScenario, setCustomScenario] = useState("");
+
+  const analyze = async () => {
+    if (holdings.length < 2) return;
+    setLoading(true); setResult(null);
+    try {
+      const r = await fetch('/api/portfolio', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ holdings, focus_investor: focusInvestor })
+      });
+      const data = await r.json();
+      if (data.error) { alert('Error: ' + data.error); setLoading(false); return; }
+      setResult(data);
+    } catch(e) { alert('Network error: ' + e.message); }
+    setLoading(false);
+  };
+
+  const verdictClass = (v) => v === 'BUY' ? 'buy' : v === 'SELL' ? 'sell' : '';
+
+  return (
+    <div>
+      <div style={{fontSize:'14px',color:'var(--muted)',maxWidth:'600px',marginBottom:'28px',lineHeight:1.7}}>
+        Build your portfolio — live fundamentals load automatically — then see it rated through one investor's lens.
+      </div>
+      <div className="picker-card" style={{marginBottom:'24px'}}>
+        <div className="picker-head">
+          <div><div className="picker-eye">Step 1</div><div className="picker-title">Choose your investor lens</div><div className="picker-sub">Which investor's framework should rate your portfolio?</div></div>
+          <div className="picker-num">01</div>
+        </div>
+        <div className="picker-div"></div>
+        <div className="inv-grid" style={{marginBottom:'8px'}}>
+          {Object.entries(INVESTORS).map(([k,v]) => (
+            <div key={k} className={`inv-card ${focusInvestor===k?'active':''}`} onClick={()=>{setFocusInvestor(k);setResult(null);}}>
+              <div className="inv-init">{v.initials}</div>
+              <div className="inv-name">{v.name}</div>
+              <div className="inv-style">{v.style}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="picker-card" style={{marginBottom:'24px'}}>
+        <div className="picker-head">
+          <div><div className="picker-eye">Step 2</div><div className="picker-title">Build your portfolio</div><div className="picker-sub">Add up to 8 positions and set your allocation.</div></div>
+          <div className="picker-num" style={{color: Math.abs(totalWeight-100)<1 ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.15)'}}>{totalWeight}%</div>
+        </div>
+        <div className="picker-div"></div>
+        <div className="slbl" style={{marginBottom:'12px'}}>Quick add</div>
+        <div className="chips" style={{marginBottom:'16px'}}>
+          {Object.keys(STOCK_OPTS).map(t => (
+            <button key={t} className={`chip ${holdings.find(h=>h.ticker===t)?'active':''}`}
+                    onClick={()=> holdings.find(h=>h.ticker===t) ? removeHolding(holdings.findIndex(h=>h.ticker===t)) : addHolding(t)}>
+              {t}
+            </button>
+          ))}
+        </div>
+        <div className="slbl">Or describe your own stock</div>
+        <textarea
+          value={customScenario}
+          onChange={e=>setCustomScenario(e.target.value)}
+          placeholder="e.g. NVDA — AI chip maker, P/E 60x, revenue +122% YoY…"
+          style={{marginBottom:12,minHeight:80}}
+        />
+        <button className="btn btn-ghost" style={{marginBottom:20,width:'auto',padding:'8px 18px'}}
+          onClick={()=>{
+            const text = customScenario.trim();
+            if(!text) return;
+            const words = text.toUpperCase().split(/[\s,\-—]+/);
+            const blocklist = new Set(["AI","P","E","YOY","USD","EPS","THE","AND","OR","FOR","WITH"]);
+            const ticker = words.find(w => w.length >= 2 && w.length <= 5 && /^[A-Z]+$/.test(w) && !blocklist.has(w));
+            if(!ticker){ alert("Start with the ticker e.g. NVDA — ..."); return; }
+            if(holdings.find(h => h.ticker === ticker)){ alert(`${ticker} already in portfolio`); return; }
+            if(holdings.length >= 8){ alert("Max 8 holdings"); return; }
+            setHoldings(prev => [...prev, {ticker, description: text, weight_pct: 10}]);
+            setCustomScenario("");
+          }}>Add to Portfolio +</button>
+        <div style={{display:'flex',flexDirection:'column',gap:'8px'}}>
+          {holdings.map((h, idx) => {
+            const live = result?.live_snapshots?.[h.ticker.toUpperCase()];
+            const pos = result?.positions?.find(p => p.ticker.toUpperCase() === h.ticker.toUpperCase());
+            return (
+              <div key={idx} className="mono-pos-row">
+                <div style={{display:'flex',flexDirection:'column',gap:2}}>
+                  <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:'15px',fontWeight:700,color:'#fff'}}>{h.ticker}</div>
+                  {live?.price && <div style={{fontSize:'10px',color:'rgba(255,255,255,0.45)'}}>${live.price}</div>}
+                </div>
+                <div style={{fontSize:'12px',color:'var(--muted)',lineHeight:1.4}}>
+                  {h.description.split('—')[1]?.trim().slice(0,60) || h.description.slice(0,60)}
+                  {live?.market_cap_fmt && <span className="mono-pill" style={{marginLeft:8}}>{live.market_cap_fmt}</span>}
+                </div>
+                <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+                  <input type="range" min={1} max={80} value={h.weight_pct} onChange={e=>updateWeight(idx,e.target.value)} style={{width:'70px'}}/>
+                  <span style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:'14px',fontWeight:700,color:'#fff',minWidth:'35px'}}>{h.weight_pct}%</span>
+                </div>
+                {pos ? <div className={`mono-verdict ${verdictClass(pos.verdict)}`}>{pos.verdict} {pos.conviction}</div> : <div/>}
+                <button onClick={()=>removeHolding(idx)} style={{background:'transparent',border:'none',color:'rgba(255,255,255,0.25)',cursor:'pointer',fontSize:'16px',padding:0}}>×</button>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <button className="btn btn-primary" onClick={analyze} style={{marginBottom:'32px'}}>
+        Analyze Portfolio Through {INVESTORS[focusInvestor].name.split(' ')[1]}'s Eyes →
+      </button>
+
+      {loading && <Loading text={`${INVESTORS[focusInvestor].name} is reviewing your portfolio…`} />}
+
+      {result && !loading && (
+        <div>
+          <div className="mono-banner">
+            <div className="mono-score">{result.overall_score}</div>
+            <div>
+              <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:'22px',fontWeight:600,color:'#fff',marginBottom:'6px',letterSpacing:'-0.5px'}}>{result.overall_verdict} Portfolio</div>
+              <div style={{fontSize:'13px',color:'var(--muted)',lineHeight:1.65,maxWidth:'520px',fontStyle:'italic'}}>{result.portfolio_summary}</div>
+            </div>
+          </div>
+          <div className="two-equal" style={{marginBottom:20}}>
+            <PortfolioDonut holdings={holdings} positions={result.positions} />
+            <ConvictionScatter positions={result.positions} holdings={holdings} />
+          </div>
+          <div className="two-equal" style={{marginBottom:'20px'}}>
+            <div className="mono-card">
+              <div style={{fontSize:'10px',fontWeight:700,letterSpacing:'0.16em',textTransform:'uppercase',color:'rgba(255,255,255,0.7)',marginBottom:'12px'}}>Strengths</div>
+              {result.strengths.map((s,i)=>(
+                <div key={i} style={{display:'flex',gap:'10px',marginBottom:'10px',alignItems:'flex-start'}}>
+                  <div style={{width:'6px',height:'6px',borderRadius:'50%',background:'rgba(255,255,255,0.85)',marginTop:'5px',flexShrink:0}}/>
+                  <div style={{fontSize:'13px',color:'var(--muted)',lineHeight:1.55}}>{s}</div>
+                </div>
+              ))}
+            </div>
+            <div className="mono-card">
+              <div style={{fontSize:'10px',fontWeight:700,letterSpacing:'0.16em',textTransform:'uppercase',color:'rgba(255,255,255,0.4)',marginBottom:'12px'}}>Weaknesses</div>
+              {result.weaknesses.map((w,i)=>(
+                <div key={i} style={{display:'flex',gap:'10px',marginBottom:'10px',alignItems:'flex-start'}}>
+                  <div style={{width:'6px',height:'6px',borderRadius:'50%',background:'rgba(255,255,255,0.35)',marginTop:'5px',flexShrink:0}}/>
+                  <div style={{fontSize:'13px',color:'var(--muted)',lineHeight:1.55}}>{w}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mono-card" style={{marginBottom:20}}>
+            <div style={{fontSize:'10px',fontWeight:700,letterSpacing:'0.16em',textTransform:'uppercase',color:'rgba(255,255,255,0.5)',marginBottom:'6px'}}>Key Risk</div>
+            <div style={{fontSize:'13px',color:'var(--muted)',lineHeight:1.6}}>{result.key_risk}</div>
+          </div>
+          <div className="two-equal" style={{marginBottom:'24px'}}>
+            <div className="mono-card">
+              <div style={{fontSize:'10px',fontWeight:700,letterSpacing:'0.16em',textTransform:'uppercase',color:'rgba(255,255,255,0.4)',marginBottom:'8px'}}>Trim or Exit</div>
+              <div style={{fontSize:'13px',color:'var(--muted)',lineHeight:1.6}}>{result.suggested_trim}</div>
+            </div>
+            <div className="mono-card">
+              <div style={{fontSize:'10px',fontWeight:700,letterSpacing:'0.16em',textTransform:'uppercase',color:'rgba(255,255,255,0.7)',marginBottom:'8px'}}>Would Add</div>
+              <div style={{fontSize:'13px',color:'var(--muted)',lineHeight:1.6}}>{result.suggested_add}</div>
+            </div>
+          </div>
+          <div className="slbl" style={{marginBottom:'14px'}}>Position-by-Position Verdict</div>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))',gap:'12px'}}>
+            {result.positions.map((p,i)=>{
+              const live = result.live_snapshots?.[p.ticker];
+              return (
+                <div key={i} className="mono-card" style={{padding:'16px 18px'}}>
+                  <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'8px'}}>
+                    <div>
+                      <div style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:'16px',fontWeight:700,color:'#fff'}}>{p.ticker}</div>
+                      {live?.price && <div style={{fontSize:'10px',color:'rgba(255,255,255,0.45)'}}>${live.price} {live.change_pct !== undefined && <span style={{color: live.change_pct>=0?'rgba(255,255,255,0.7)':'rgba(255,255,255,0.4)'}}>{live.change_pct>=0?'+':''}{live.change_pct?.toFixed(2)}%</span>}</div>}
+                    </div>
+                    <div className={`mono-verdict ${verdictClass(p.verdict)}`}>{p.verdict}</div>
+                  </div>
+                  <div className="mono-bar" style={{marginBottom:'8px'}}>
+                    <div className="mono-bar-fill" style={{width:p.conviction+'%',opacity:p.verdict==='BUY'?0.95:p.verdict==='SELL'?0.3:0.6}}></div>
+                  </div>
+                  <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',marginBottom:8}}>
+                    <span style={{fontSize:'10px',color:'rgba(255,255,255,0.4)',letterSpacing:'0.1em',textTransform:'uppercase'}}>Conviction</span>
+                    <span style={{fontFamily:"'Space Grotesk',sans-serif",fontSize:'14px',fontWeight:700,color:'#fff'}}>{p.conviction}</span>
+                  </div>
+                  <div style={{fontSize:'11px',color:'var(--dim)',lineHeight:1.5}}>{p.note}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ── APP ── */
 function App() {
-  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const [tab,setTab]=useState(0);
-  const tabs=["Stress Test","Side-by-Side","Practice Mode","DNA Lab"];
+  const tabs=["Stress Test","Side-by-Side","Practice Mode","Quant Lab","Portfolio"];
   useScrollReveal();
   useEffect(()=>{ setTimeout(()=>{
     document.querySelectorAll('.reveal:not(.visible),.reveal-left:not(.visible),.reveal-right:not(.visible)').forEach(el=>{
       if(el.getBoundingClientRect().top<window.innerHeight*.9)el.classList.add('visible'); }); },80);
   },[tab]);
-  const td=tweaks.tiltDepth;
+  const td = 1;
   return(
     <div style={{position:'relative',zIndex:1,background:'#080808'}}>
       <nav>
-        <div className="nav-logo">Decision<span>DNA</span></div>
-        <div className="nav-pill">AI Investor Intelligence</div>
+        <div className="nav-logo">Quant<span>Clone</span></div>
+        <div className="nav-pill"><span className="live-dot"></span>Live Market Data · AI Investor Intelligence</div>
       </nav>
       <div className="hero">
         <div className="reveal-left visible">
           <div className="hero-eye">AI-Powered Investor Intelligence</div>
           <h1>See any stock through<br/>the eyes of the<br/><span style={{color:'rgba(255,255,255,0.35)'}}>greatest investors.</span></h1>
-          <div className="hero-sub">DecisionDNA clones the decision-making frameworks of Buffett, Munger, Dalio, and Lynch — directly from their writing and interviews.</div>
+          <div className="hero-sub">QuantClone clones the decision-making frameworks of Buffett, Munger, Dalio, and Lynch — directly from their writing — and runs them against live market data.</div>
           <div className="hero-feats">
-            {["Stress test any stock in seconds","Side-by-side investor comparison","Practice mode with scoring and feedback","See the DNA behind each investor's decisions"].map((f,i)=>(
+            {["Live fundamentals from real markets","Stress test any stock in seconds","Side-by-side investor comparison","Practice mode with scoring and feedback"].map((f,i)=>(
               <div className="hero-feat" key={i}><div className="feat-dot"></div><span>{f}</span></div>
             ))}
           </div>
@@ -677,10 +1092,10 @@ function App() {
       </div>
       <div className="section-divider"><div className="divider-line"></div></div>
       <div className="feat-strip">
-        <FeatCard num="01" title="Stress Test" desc="Run any stock through one investor's full framework and get a structured verdict with conviction score." delay={0.05} tiltDepth={td} />
+        <FeatCard num="01" title="Stress Test" desc="Run any stock through one investor's full framework with live fundamentals and a structured verdict." delay={0.05} tiltDepth={td} />
         <FeatCard num="02" title="Side-by-Side" desc="Compare how two different investors would analyze the exact same stock simultaneously." delay={0.12} tiltDepth={td} />
         <FeatCard num="03" title="Practice Mode" desc="Make your own call first — then reveal what the masters decided and see your alignment score." delay={0.19} tiltDepth={td} />
-        <FeatCard num="04" title="DNA Lab" desc="Explore the core principles and red flags that define each investor's decision-making style." delay={0.26} tiltDepth={td} />
+        <FeatCard num="04" title="Clone Lab" desc="Explore the core principles and red flags that define each investor's decision-making style." delay={0.26} tiltDepth={td} />
       </div>
       <div className="section-divider"><div className="divider-line"></div></div>
       <div className="tabs-wrap">
@@ -691,7 +1106,8 @@ function App() {
           {tab===0&&<StressTest tiltDepth={td} />}
           {tab===1&&<SideBySide />}
           {tab===2&&<PracticeMode />}
-          {tab===3&&<DNALab tiltDepth={td} />}
+          {tab===3&&<CloneLab tiltDepth={td} />}
+          {tab===4&&<PortfolioMode />}
         </div>
       </div>
     </div>
@@ -702,4 +1118,3 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 </script>
 </body>
 </html>
-
